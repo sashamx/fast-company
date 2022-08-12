@@ -1,13 +1,15 @@
 import React from "react";
 import Qualitie from "./qualitle";
 import Bookmark from "./bookmark";
+import PropTypes from "prop-types";
 
 const User = ({ user, onDelete, onBookmark }) => {
-
     return (
         <tr key={user._id} className="user">
             <td>{user.name}</td>
-            <td><Qualitie qualities={user.qualities} /></td>
+            <td>
+                <Qualitie qualities={user.qualities} />
+            </td>
             <td>{user.profession.name}</td>
             <td>{user.completedMeetings}</td>
             <td>{user.rate}/5</td>
@@ -24,7 +26,13 @@ const User = ({ user, onDelete, onBookmark }) => {
                 </button>
             </td>
         </tr>
-    )
-}
+    );
+};
+
+User.propTypes = {
+    user: PropTypes.object.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onBookmark: PropTypes.func.isRequired
+};
 
 export default User;
