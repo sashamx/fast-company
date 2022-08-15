@@ -24,7 +24,6 @@ const Users = ({ users: allUsers, ...rest }) => {
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
-        console.log("page: ", pageIndex);
     };
 
     const filtredUsers = selectedProf
