@@ -14,7 +14,7 @@ const Users = ({ users, onDelete, onBookmark }) => {
 };
 
 Users.propTypes = {
-    users: PropTypes.object.isRequired,
+    users: PropTypes.array.isRequired,
     onDelete: PropTypes.func.isRequired,
     onBookmark: PropTypes.func.isRequired
 };

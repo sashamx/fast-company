@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import API from "./api";
 import Users from "./components/users";
 import Status from "./components/searchStatus";
 import Header from "./components/header";
 import Pagination from "./components/pagination";
 import { pagination } from "./utils/pagination";
+import GroupList from "./components/groupList";
 
 const App = () => {
     const [users, setUsers] = useState(API.users.fetchAll());
+    const [professions, setProfessions] = useState();
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedProf, setSelectedProf] = useState();
+
+    useEffect(() => {
+        API.professions.fetchAll().then((data) => setProfessions(data));
+    }, []);
 
     const headers = [
         "Имя",
@@ -41,11 +48,23 @@ const App = () => {
         setCurrentPage(pageIndex);
     };
 
+    const handleProfessionSelect = (item) => {
+        setSelectedProf(item);
+    };
+
     const userCorp = pagination(users, currentPage, pageSize);
 
     return (
         <>
             <Status count={users.length} />
+            {professions && (
+                <GroupList
+                    selectedItem={selectedProf}
+                    items={professions}
+                    onItemSecect={handleProfessionSelect}
+                />
+            )}
+
             <table className="table">
                 <thead>
                     <Header headers={headers} />
