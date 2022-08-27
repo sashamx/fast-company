@@ -5,6 +5,8 @@ import GroupList from "./groupList";
 import api from "../api";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
+import { useParams } from "react-router-dom";
+import UserPage from "./userPage";
 import _ from "lodash";
 
 const Users = () => {
@@ -15,6 +17,8 @@ const Users = () => {
     const pageSize = 4;
 
     const [users, setUsers] = useState();
+
+    const params = useParams();
 
     useEffect(() => {
         api.users.default.fetchAll().then((data) => setUsers(data));
@@ -49,6 +53,10 @@ const Users = () => {
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
+
+    if (params.id) {
+        return <UserPage id={params.id} />;
+    }
 
     if (users) {
         const filtredUsers = selectedProf
