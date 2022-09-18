@@ -1,28 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 const TableHeader = ({ onSort, selectedSort, columns }) => {
-    const handleSort = (name) => {
-        if (selectedSort.path === name) {
+    const handleSort = (item) => {
+        if (selectedSort.path === item) {
             onSort({
                 ...selectedSort,
                 order: selectedSort.order === "asc" ? "desc" : "asc"
             });
         } else {
-            onSort({ path: name, order: "asc" });
+            onSort({ path: item, order: "asc" });
         }
     };
-
-    const renderIcon = (path) => {
-        if (selectedSort.path === path) {
-            const iconClass =
-                selectedSort.order === "asc"
-                    ? "bi bi-caret-up-fill"
-                    : "bi bi-caret-down-fill";
-
-            return <i className={iconClass}></i>;
+    const renderSortArrow = (selectedSort, currentPath) => {
+        if (selectedSort.path === currentPath) {
+            if (selectedSort.order === "asc") {
+                return <i className="bi bi-caret-down-fill"></i>;
+            } else {
+                return <i className="bi bi-caret-up-fill"></i>;
+            }
         }
+        return null;
     };
+
     return (
         <thead>
             <tr>
@@ -38,14 +37,13 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         scope="col"
                     >
                         {columns[column].name}{" "}
-                        {renderIcon(columns[column].path)}
+                        {renderSortArrow(selectedSort, columns[column].path)}
                     </th>
                 ))}
             </tr>
         </thead>
     );
 };
-
 TableHeader.propTypes = {
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired,

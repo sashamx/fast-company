@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const TextField = ({ label, name, value, onChange, type, error }) => {
+function TextField({ label, type, name, value, onChange, error }) {
     const [showPassword, setShowPassword] = useState(false);
 
-    const getInputClass = () => {
-        return "form-control" + (error ? " is-invalid" : "");
+    const handelechange = ({ target }) => {
+        onChange({ name: target.name, value: target.value });
     };
 
-    const toogleShowPassword = () => {
+    const getInputClasses = () => {
+        return "form-control" + (error ? " is-invalid" : "");
+    };
+    const toggleShowPassword = () => {
         setShowPassword((prevState) => !prevState);
     };
     return (
@@ -18,17 +21,16 @@ const TextField = ({ label, name, value, onChange, type, error }) => {
                 <input
                     type={showPassword ? "text" : type}
                     id={name}
-                    value={value}
-                    onChange={onChange}
                     name={name}
-                    className={getInputClass()}
+                    value={value}
+                    onChange={handelechange}
+                    className={getInputClasses()}
                 />
-
                 {type === "password" && (
                     <button
                         className="btn btn-outline-secondary"
                         type="button"
-                        onClick={toogleShowPassword}
+                        onClick={toggleShowPassword}
                     >
                         <i
                             className={
@@ -41,17 +43,15 @@ const TextField = ({ label, name, value, onChange, type, error }) => {
             </div>
         </div>
     );
-};
-
+}
 TextField.defaultProps = {
     type: "text"
 };
-
 TextField.propTypes = {
     label: PropTypes.string,
+    type: PropTypes.string,
     name: PropTypes.string,
     value: PropTypes.string,
-    type: PropTypes.string,
     onChange: PropTypes.func,
     error: PropTypes.string
 };
